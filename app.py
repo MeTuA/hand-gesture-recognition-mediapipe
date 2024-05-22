@@ -6,7 +6,6 @@ import argparse
 import itertools
 from collections import Counter
 from collections import deque
-
 import cv2 as cv
 import numpy as np
 import mediapipe as mp
@@ -59,12 +58,19 @@ def main():
 
     # Model load #############################################################
     mp_hands = mp.solutions.hands
+
+    # test = mp.solutions.Solution(
+    #     binary_graph_path="C:/Users/metua/OneDrive/Документы/KBTU/Master's thesis/thesis project/hand-gesture-recognition-mediapipe/env/Lib/sitepackages/mediapipe/modules/hand_landmark/hand_landmark_tracking_cpu.binarypb"
+    # )
+
     hands = mp_hands.Hands(
         static_image_mode=use_static_image_mode,
-        max_num_hands=1,
+        max_num_hands=2,
         min_detection_confidence=min_detection_confidence,
         min_tracking_confidence=min_tracking_confidence,
     )
+    # hands._landmark_model.load_path = r"C:/Users/metua/OneDrive/Документы/KBTU/Master's thesis/thesis project/hand-gesture-recognition-mediapipe/env/Lib/site-packages/mediapipe/modules/hand_landmark/hand_landmark_tracking_cpu.binarypb"
+
 
     keypoint_classifier = KeyPointClassifier()
 
