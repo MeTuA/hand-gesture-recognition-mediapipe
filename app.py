@@ -45,10 +45,6 @@ def loader():
     min_tracking_confidence = args.min_tracking_confidence
     mp_hands = mp.solutions.hands
 
-    # test = mp.solutions.Solution(
-    #     binary_graph_path="C:/Users/metua/OneDrive/Документы/KBTU/Master's thesis/thesis project/hand-gesture-recognition-mediapipe/env/Lib/sitepackages/mediapipe/modules/hand_landmark/hand_landmark_tracking_cpu.binarypb"
-    # )
-
     hands = mp_hands.Hands(
         static_image_mode=use_static_image_mode,
         max_num_hands=2,
@@ -60,9 +56,6 @@ def loader():
     classesMap = {0:'A', 1:'B',2:'C', 3:'E',4:'AE',5:'F',6:'L',7:'S',
               8:'H',9:'N', 10:'P', 11:'I',12:'Q', 13:'M',14:'V',15:'J',16:'O',17:'U',18:'R',19:'T',
               20:'Q',21:'X',22:'II',23:'GG'}
-    # classesMap = {4:'AE',5:'F',6:'L',7:'S',
-    #           8:'H',9:'N', 10:'P', 11:'I',12:'Q', 13:'M',14:'V',15:'J',16:'O',17:'U',18:'R',19:'T',
-    #           20:'Q',21:'X',22:'II',23:'GG'}
 
     # iterating over files
     for number, sign in classesMap.items():
@@ -120,18 +113,12 @@ def main():
     # Model load #############################################################
     mp_hands = mp.solutions.hands
 
-    # test = mp.solutions.Solution(
-    #     binary_graph_path="C:/Users/metua/OneDrive/Документы/KBTU/Master's thesis/thesis project/hand-gesture-recognition-mediapipe/env/Lib/sitepackages/mediapipe/modules/hand_landmark/hand_landmark_tracking_cpu.binarypb"
-    # )
-
     hands = mp_hands.Hands(
         static_image_mode=use_static_image_mode,
         max_num_hands=2,
         min_detection_confidence=min_detection_confidence,
         min_tracking_confidence=min_tracking_confidence,
     )
-    # hands._landmark_model.load_path = r"C:/Users/metua/OneDrive/Документы/KBTU/Master's thesis/thesis project/hand-gesture-recognition-mediapipe/env/Lib/site-packages/mediapipe/modules/hand_landmark/hand_landmark_tracking_cpu.binarypb"
-
 
     keypoint_classifier = KeyPointClassifier()
 
