@@ -9,6 +9,7 @@ from collections import deque
 import cv2 as cv
 import numpy as np
 import mediapipe as mp
+import os
 
 from utils import CvFpsCalc
 from model import KeyPointClassifier
@@ -35,6 +36,66 @@ def get_args():
     args = parser.parse_args()
 
     return args
+
+def loader():
+    args = get_args()
+
+    use_static_image_mode = args.use_static_image_mode
+    min_detection_confidence = args.min_detection_confidence
+    min_tracking_confidence = args.min_tracking_confidence
+    mp_hands = mp.solutions.hands
+
+    # test = mp.solutions.Solution(
+    #     binary_graph_path="C:/Users/metua/OneDrive/Документы/KBTU/Master's thesis/thesis project/hand-gesture-recognition-mediapipe/env/Lib/sitepackages/mediapipe/modules/hand_landmark/hand_landmark_tracking_cpu.binarypb"
+    # )
+
+    hands = mp_hands.Hands(
+        static_image_mode=use_static_image_mode,
+        max_num_hands=2,
+        min_detection_confidence=min_detection_confidence,
+        min_tracking_confidence=min_tracking_confidence,
+    )
+
+    directory = 'signs'
+    classesMap = {0:'A', 1:'B',2:'C', 3:'E',4:'AE',5:'F',6:'L',7:'S',
+              8:'H',9:'N', 10:'P', 11:'I',12:'Q', 13:'M',14:'V',15:'J',16:'O',17:'U',18:'R',19:'T',
+              20:'Q',21:'X',22:'II',23:'GG'}
+    # classesMap = {4:'AE',5:'F',6:'L',7:'S',
+    #           8:'H',9:'N', 10:'P', 11:'I',12:'Q', 13:'M',14:'V',15:'J',16:'O',17:'U',18:'R',19:'T',
+    #           20:'Q',21:'X',22:'II',23:'GG'}
+
+    # iterating over files
+    for number, sign in classesMap.items():
+        print("number = ", number, "sign = ", sign)
+        for filename in os.listdir(os.path.join(directory, sign)):
+            if os.path.isfile(os.path.join(directory, sign, filename)):
+                file_extension = os.path.splitext(filename)[1]
+                if file_extension != ".jpg":
+                    continue
+
+                print(os.path.join(directory,sign, filename))
+
+                image = cv.imread(os.path.join(directory,sign, filename))
+                if image is None:
+                    print("Error: Couldn't read the image file.")
+                    continue
+                    # exit()
+                image = cv.flip(image, 1)  # Mirror display
+                debug_image = copy.deepcopy(image)
+
+                results = hands.process(image)
+                if results.multi_hand_landmarks is not None:
+                    for hand_landmarks, handedness in zip(results.multi_hand_landmarks,results.multi_handedness):
+                        # Landmark calculation
+                        landmark_list = calc_landmark_list(debug_image, hand_landmarks)
+
+                        # Conversion to relative coordinates / normalized coordinates
+                        pre_processed_landmark_list = pre_process_landmark(landmark_list)
+                        
+                        # Write to the dataset file
+                        logging_csv(number, 1, pre_processed_landmark_list, [])
+            
+
 
 
 def main():
@@ -287,7 +348,8 @@ def pre_process_point_history(image, point_history):
 def logging_csv(number, mode, landmark_list, point_history_list):
     if mode == 0:
         pass
-    if mode == 1 and (0 <= number <= 9):
+    # if mode == 1 and (0 <= number <= 9):
+    if mode == 1:
         csv_path = 'model/keypoint_classifier/keypoint.csv'
         with open(csv_path, 'a', newline="") as f:
             writer = csv.writer(f)
@@ -546,4 +608,6 @@ def draw_info(image, fps, mode, number):
 
 
 if __name__ == '__main__':
+    # loader()
     main()
+    
