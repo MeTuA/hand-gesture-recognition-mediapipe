@@ -1,4 +1,11 @@
 # hand-gesture-recognition-using-mediapipe
+
+## Master's Thesis Project, Research of Sign Language for digital real-time translation
+This project was forked from original project. Tuned and developed for master's thesis project, for Sign Language recognition. 
+
+If you want to use that project you should create "signs" folder, then populate with signs image. After that run ```loader()``` function. Then train the model, and run ```main()``` function.
+
+___
 Estimate hand pose using MediaPipe (Python version).<br> This is a sample 
 program that recognizes hand signs and finger gestures with a simple MLP using the detected key points.
 <br> ❗ _️**This is English Translated version of the [original repo](https://github.com/Kazuhito00/hand-gesture-recognition-using-mediapipe). All Content is translated to english along with comments and notebooks**_ ❗
@@ -13,9 +20,9 @@ This repository contains the following contents.
 * Learning data for finger gesture recognition and notebook for learning
 
 # Requirements
-* mediapipe 0.8.1
+* mediapipe
 * OpenCV 3.4.2 or Later
-* Tensorflow 2.3.0 or Later<br>tf-nightly 2.5.0.dev or later (Only when creating a TFLite for an LSTM model)
+* Tensorflow 2.15.0<br>tf-nightly 2.5.0.dev or later (Only when creating a TFLite for an LSTM model)
 * scikit-learn 0.23.2 or Later (Only if you want to display the confusion matrix) 
 * matplotlib 3.3.2 or Later (Only if you want to display the confusion matrix)
 
